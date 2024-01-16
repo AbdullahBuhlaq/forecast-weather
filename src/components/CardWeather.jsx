@@ -2,33 +2,35 @@ import { useEffect, useState } from "react";
 import CardBody from "./CardBody";
 import CardError from "./CardError";
 import CardHeader from "./CardHeader";
-import init from "../init";
+import INIT from "../init";
 
 function CardWeather(props) {
   const [city, setCity] = useState("London");
-  const [forecast, setForecast] = useState(init);
+  const [forecast, setForecast] = useState(INIT);
   const [location, setLocation] = useState({
     latitude: 51.5073,
     longitude: -0.1276,
   });
 
   useEffect(() => {
-    const weatherurl = `https://api.openweathermap.org/data/2.5/onecall?lat=${location.latitude}&lon=${location.longitude}&exclude=minutely,hourly&units=${props.unit}&appid=${import.meta.env.VITE_OPEN_WEATHER_API_KEY}`;
+    const weatherurl = `https://api.openweathermap.org/data/2.5/forecast?id=524901&lat=${location.latitude}&lon=${location.longitude}&exclude=minutely,hourly&units=${props.unit}&appid=${import.meta.env.VITE_OPEN_WEATHER_API_KEY}`;
 
     fetch(weatherurl)
       .then((res) => res.json())
       .then((data) => {
         try {
+          console.log("data", data);
           if (data.cod != 401) {
             setForecast({ ...data });
             document.getElementById("card-error").innerHTML = "";
           }
         } catch (error) {
+          console.log("error", error);
           document.getElementById("card-error").innerHTML = "Sorry, connection error!";
         }
       })
       .catch((error) => {
-        console.log("hello", error);
+        console.log("error", error);
         document.getElementById("card-error").innerHTML = "Sorry, can't search for your location!";
       });
 
@@ -41,16 +43,18 @@ function CardWeather(props) {
       .then((res) => res.json())
       .then((data) => {
         try {
+          console.log("getcoords", data);
           if (data.cod != 401) {
             const newCoords = { latitude: data[0].lat, longitude: data[0].lon };
             setLocation(newCoords);
           }
         } catch (error) {
+          console.log("coordseror", error);
           document.getElementById("card-error").innerHTML = "Sorry, city not found!";
         }
       })
       .catch((error) => {
-        console.log("hello", error);
+        console.log("coordseror", error);
         document.getElementById("card-error").innerHTML = "Sorry, can't search for your location!";
       });
   }
@@ -61,13 +65,16 @@ function CardWeather(props) {
       .then((res) => res.json())
       .then((data) => {
         try {
+          console.log("city", data);
           if (data.cod != 401) setCity(data[0].name);
         } catch (error) {
+          console.log("city", error);
+
           document.getElementById("card-error").innerHTML = "Sorry, city not found!";
         }
       })
       .catch((error) => {
-        console.log("hello", error);
+        console.log("city", error);
         document.getElementById("card-error").innerHTML = "Sorry, can't search for your location!";
       });
   }
