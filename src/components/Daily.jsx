@@ -37,7 +37,7 @@ function Daily(props) {
   id = id == props.godown ? "godown" : id;
 
   return (
-    <div className={"col daily " + "daily-th" + props.id} id={id} style={{ zIndex: 32 - props.id, transformOrigin: "0% 0% 0px" }}>
+    <div className={"col daily " + "daily-th" + props.id} id={id} style={{ zIndex: 8 - props.id / 8, transformOrigin: "0% 0% 0px" }}>
       <div className="row daily-1">
         <div className="col bord-right">
           <div className="row ">

@@ -25,7 +25,7 @@ function CardBody(props) {
           onClick={() => {
             if (goup != 32) {
               let x = document.getElementsByClassName("daily-th" + goup);
-              if (x.length) x[0].style.zIndex = 34;
+              if (x.length) x[0].style.zIndex = 11;
               setTimeout(() => {
                 if (x.length) x[0].style.transitionDuration = "1s";
                 if (x.length) x[0].style.transformOrigin = "0px 0px 0px";
@@ -56,7 +56,7 @@ function CardBody(props) {
               if (x.length) x[0].style.transform = "rotate3D(1,0,0,0deg)";
               if (x.length)
                 setTimeout(() => {
-                  x[0].style.zIndex = 32 - godown + 2;
+                  x[0].style.zIndex = 7 - godown + 2;
                 }, 300);
 
               updateGodown();
