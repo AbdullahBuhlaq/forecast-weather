@@ -19,20 +19,21 @@ function CardWeather(props) {
       .then((res) => res.json())
       .then((data) => {
         try {
-          setForecast({ ...data });
-          document.getElementById("card-error").innerHTML = "";
+          if (data.cod != 401) {
+            setForecast({ ...data });
+            document.getElementById("card-error").innerHTML = "";
+          }
         } catch (error) {
           document.getElementById("card-error").innerHTML = "Sorry, connection error!";
         }
       })
       .catch((error) => {
+        console.log("hello", error);
         document.getElementById("card-error").innerHTML = "Sorry, can't search for your location!";
       });
 
     getCity();
   }, [location, props.unit]);
-
-  useEffect(() => {}, [forecast]);
 
   function getCoords() {
     const coordsurl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&appid=${import.meta.env.VITE_OPEN_WEATHER_API_KEY}`;
@@ -40,11 +41,17 @@ function CardWeather(props) {
       .then((res) => res.json())
       .then((data) => {
         try {
-          const newCoords = { latitude: data[0].lat, longitude: data[0].lon };
-          setLocation(newCoords);
+          if (data.cod != 401) {
+            const newCoords = { latitude: data[0].lat, longitude: data[0].lon };
+            setLocation(newCoords);
+          }
         } catch (error) {
           document.getElementById("card-error").innerHTML = "Sorry, city not found!";
         }
+      })
+      .catch((error) => {
+        console.log("hello", error);
+        document.getElementById("card-error").innerHTML = "Sorry, can't search for your location!";
       });
   }
 
@@ -54,11 +61,14 @@ function CardWeather(props) {
       .then((res) => res.json())
       .then((data) => {
         try {
-          console.log("the city is", data);
-          setCity(data[0].name);
+          if (data.cod != 401) setCity(data[0].name);
         } catch (error) {
           document.getElementById("card-error").innerHTML = "Sorry, city not found!";
         }
+      })
+      .catch((error) => {
+        console.log("hello", error);
+        document.getElementById("card-error").innerHTML = "Sorry, can't search for your location!";
       });
   }
 
